@@ -34,7 +34,8 @@ public class DoctorTests
                 EndTime = new TimeSpan(19, 45, 0)
             },
         };
-        var doc = new Doctor("Samaneh", "Yousefi", "dentic", days);
+        var Daylist = days.Select(x => (int)x.Day).ToList();
+        var doc = new Doctor("Samaneh", "Yousefi", "dentic", Daylist, "0323733042");
 
         //fluent Assertioan
 
