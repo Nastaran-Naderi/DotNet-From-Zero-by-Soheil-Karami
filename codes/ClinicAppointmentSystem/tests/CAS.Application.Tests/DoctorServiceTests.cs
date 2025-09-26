@@ -24,10 +24,18 @@ public class DoctorServiceTests
         //Arrange,Act,Assert , Triple A
         var id = await _doctorService.Create(new CreateDoctorDto()
         {
-            CodeMeli="5210010104",
+            NationalCode="5210010104",
             LastName = "Yousefi",
             Name = "Samaneh",
-            Speciality = "Genral"
+            Speciality = "Genral",
+            Gender = GenderDto.Female,
+            MedicalCouncilNumber = "1234567890",
+            ContactInfoDto = new ContactInfoDto()
+            {
+                Address = "somewhere",
+                MobileNumber = "0912123456",
+                PhoneNumber = "02183333"
+            }
         }, CancellationToken.None);
 
         id.Should().NotBe(Guid.Empty);
@@ -52,7 +60,7 @@ public class DoctorServiceTests
         
         Func<Task> act = async () => { await service.Create(new CreateDoctorDto()
         {
-            CodeMeli="5210010104",
+            NationalCode="5210010104",
             LastName = "Yousefi",
             Name = "Samaneh",
             Speciality = "Genral"
@@ -64,12 +72,12 @@ public class DoctorServiceTests
 
 public class DoctorRepositoryStub : IDoctorRepository
 {
-    public Task<Guid> Create(Doctor doctor, CancellationToken cancellationToken)
+    Task<DoctorId> IDoctorRepository.Create(Doctor doctor, CancellationToken cancellationToken)
     {
         return Task.FromResult(doctor.Id);
     }
 
-    public Task<bool> AlreadyExists(string codeMeli, CancellationToken cancellationToken)
+    public Task<bool> AlreadyExists(string nationalCode, CancellationToken cancellationToken)
     {
         return Task.FromResult(false);
     }
